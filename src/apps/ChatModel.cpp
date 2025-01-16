@@ -115,6 +115,8 @@ void ChatModel::sendMessage(const QString &message)
     }
     auto rep = m_llm->getCompletion(req);
 
+    m_reply = rep;
+
     beginInsertRows({}, m_messages.size(), m_messages.size() + 1);
     m_messages.append(ChatMessage{.content = message, .sender = Sender::User});
     m_messages.append(ChatMessage{.inProgress = true, .sender = Sender::LLM, .llmReply = rep});
@@ -138,6 +140,15 @@ void ChatModel::sendMessage(const QString &message)
                          }));
     Q_EMIT replyInProgressChanged();
     endInsertRows();
+}
+
+void ChatModel::abort()
+{
+    beginResetModel();
+    m_reply->abort();
+    m_reply = NULL;
+    Q_EMIT replyInProgressChanged();
+    endResetModel();
 }
 
 void ChatModel::resetConversation()

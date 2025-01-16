@@ -8,6 +8,8 @@
 #include "kllmcore_export.h"
 #include <QJsonDocument>
 
+#include <QNetworkReply>
+
 #include "KLLMContext.h"
 
 class QNetworkReply;
@@ -95,6 +97,11 @@ public:
      * @return Whether the reply has finished.
      */
     [[nodiscard]] bool isFinished() const;
+
+    void abort()
+    {
+        m_reply->abort();
+    }
 
 protected:
     explicit KLLMReply(QNetworkReply *netReply, QObject *parent = nullptr);

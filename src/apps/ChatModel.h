@@ -50,6 +50,7 @@ public:
 
 public Q_SLOTS:
     void sendMessage(const QString &message);
+    void abort();
     void resetConversation();
 
 Q_SIGNALS:
@@ -69,4 +70,6 @@ private:
     KLLMCore::KLLMInterface *const m_llm;
 
     QMultiHash<KLLMCore::KLLMReply *, QMetaObject::Connection> m_connections;
+
+    KLLMCore::KLLMReply *m_reply;
 };

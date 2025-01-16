@@ -11,7 +11,7 @@ import org.kde.coreaddons as KCoreAddons
 import org.kde.alpaka
 
 Kirigami.ScrollablePage {
-    title: i18n("Alpaka")
+    title: AlpakaSettings.model
 
     Kirigami.Theme.colorSet: Kirigami.Theme.Window
     Connections {
@@ -70,7 +70,28 @@ Kirigami.ScrollablePage {
             focus: true
             onAccepted: {
                 chat.sendMessage(messageInput.text);
-                messageInput.text = "";
+            }
+        }
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: Kirigami.Units.gridUnit
+
+            Controls.Button {
+                Layout.fillWidth: true
+                text: i18n("Send")
+                icon.name: "send-message"
+                enabled: chat.llm.ready && !chat.replyInProgress && messageInput.length > 0
+                onClicked: {
+                    chat.sendMessage(messageInput.text);
+                    messageInput.focus = true;
+                }
+            }
+            Controls.Button {
+                id: abortButton
+                text: i18n("Abort")
+                icon.name: "process-stop"
+                enabled: chat.replyInProgress
+                onClicked: chat.abort()
             }
         }
     }
