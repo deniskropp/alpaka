@@ -70,10 +70,14 @@ RowLayout {
                     visible: !messageDelegate.finished
                 }
 
+                Item {
+                    Layout.fillWidth: true
+                }
+
                 Controls.Button {
                     Layout.alignment: Qt.AlignRight
                     visible: messageDelegate.finished
-                    text: i18n("Copy")
+                    icon.name: "edit-copy"
                     onClicked: {
                         messageText.selectAll()
                         messageText.copy()
