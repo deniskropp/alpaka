@@ -69,9 +69,21 @@ RowLayout {
                 TypingIndicator {
                     visible: !messageDelegate.finished
                 }
+
+                Controls.Button {
+                    Layout.alignment: Qt.AlignRight
+                    visible: messageDelegate.finished
+                    text: i18n("Copy")
+                    onClicked: {
+                        messageText.selectAll()
+                        messageText.copy()
+                        messageText.deselect()
+                    }
+                }
             }
 
             TextEdit {
+                id: messageText
                 text: messageDelegate.message
                 wrapMode: Controls.Label.WordWrap
                 Layout.fillWidth: true
